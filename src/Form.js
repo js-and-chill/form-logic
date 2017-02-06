@@ -3,76 +3,93 @@
 import React, {
   PropTypes as T,
   PureComponent,
+  cloneElement,
 } from 'react';
-
-import {
-  View,
-} from 'react-native';
-
-import type Children from 'react';
 
 import merge from 'lodash.merge';
 
-export const formContextShape = {
-  form: T.shape({
-    subscribeToFormUpdates: T.func,
-    makeRequest: T.func,
-    setValue: T.func,
-    setError: T.func,
-  }),
+/*::
+export type Subscriber = (FormData) => void;
+
+export type subscribeToFormUpdates = (Subscriber) => (() => void);
+export type unsubscribe = (Subscriber) => void;
+export type bindedUnsubscribe = () => void;
+export type registerRequest = (string, Promise<any>) => void;
+export type setValue = (string, any) => void;
+export type setError = (string, string) => void;
+
+export type FormContext = {
+  subscribeToFormUpdates: subscribeToFormUpdates,
+  registerRequest: registerRequest,
+  setValue: setValue,
+  setError: setError,
 };
 
-type FormData = {
-  requests: { [key: String]: Promise<any> },
-  values: { [key: String]: any },
-  errors: { [key: String]: String },
+export type FormData = {
+  requests: { [key: string]: Promise<any> },
+  values: { [key: string]: any },
+  errors: { [key: string]: string },
 };
 
-type Props = {
-  initialData: FormData,
-  children: Children,
+export type Props = {
+  initialData?: FormData,
+  children: React$Element<any>,
 };
+*/
 
+export const formContextShape = T.shape({
+  subscribeToFormUpdates: T.func,
+  registerRequest: T.func,
+  setValue: T.func,
+  setError: T.func,
+});
 
-export default class Form extends PureComponent {
-  static childContextTypes = formContextShape;
+export default class Form extends PureComponent/*::<void, Props, void>*/ {
+  static childContextTypes = {
+    form: formContextShape,
+  };
 
-  props: Props;
-  subscribers = []
-  initialData: FormData = {
+  props/*: Props*/;
+  subscribers/*: Array<Subscriber> */ = [];
+  data/*: FormData */ = {
     requests: {},
     values: {},
     errors: {},
   };
-  data: FormData = merge(this.initialData, this.props.initialData);
 
-  getChildContext() {
+  constructor(props/*: Props */) {
+    super(props);
+    this.data = merge(this.data, this.props.initialData);
+  }
+    
+
+  getChildContext()/*: { form: FormContext }*/ {
     return {
-      subscribeToFormUpdates: this.subscribeToFormUpdates,
-      makeRequest: this.makeRequest,
-      setValue: this.setValue,
-      setError: this.setError,
+      form: {
+        subscribeToFormUpdates: this.subscribeToFormUpdates,
+        registerRequest: this.registerRequest,
+        setValue: this.setValue,
+        setError: this.setError,
+      }
     };
   }
 
-  /* Subscribers */
-  subscribeToFormUpdates = (fn: (formData: FormData) => void) => {
+  subscribeToFormUpdates/*: subscribeToFormUpdates */ = (fn) => {
     this.subscribers.push(fn);
     fn(this.data);
-
     return this.unsubscribe.bind(this, fn);
   }
 
-  unsubscribe = (fn: (formData: FormData) => void) => {
+  unsubscribe/*: unsubscribe */ = (fn /*: Subscriber*/)/*: void */ => {
     this.subscribers = this.subscribers.filter(sub => sub !== fn);
   }
 
-  emitChange = () => {
+  emitChange = ()/*: void */ => {
     this.subscribers.forEach(sub => sub(this.data));
   }
 
   /* Form state */
-  makeRequest = (name: String, promise: Promise<any>) => {
+  registerRequest/*: registerRequest */ = (name, promise) => {
     this.data.requests[name] = promise;
 
     const removeSelf = () => {
@@ -88,21 +105,23 @@ export default class Form extends PureComponent {
     this.emitChange();
   }
 
-  setValue = (name: String, value: any) => {
+  setValue/*: setValue */ = (name, value) => {
     this.data.values[name] = value;
     this.emitChange();
   }
 
-  setError = (name: String, error: String) => {
+  setError/*: setError */ = (name, error) => {
     this.data.errors[name] = error;
     this.emitChange();
   }
 
   render() {
-    return (
-      <View {...this.props}>
-        {this.props.children}
-      </View>
-    );
+    const {
+      initialData,
+      children,
+      ...others
+    } = this.props;
+
+    return cloneElement(this.props.children, others);
   }
 }

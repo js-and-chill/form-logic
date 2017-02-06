@@ -6,3 +6,4 @@ src/
 [libs]
 
 [options]
+emoji=true
