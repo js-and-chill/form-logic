@@ -13,7 +13,7 @@ import {
 import type { FormContext, FormData, bindedUnsubscribe, registerRequest, setValue, setError } from './Form';
 
 export type Props = {
-  render: (FormData, FormContext) => React$Element<any>,
+  render: (FormData, FormContext) => ?React$Element<any>,
 };
 
 */
