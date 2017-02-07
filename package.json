@@ -1,6 +1,6 @@
 {
   "name": "form-logic",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Form logic made simple",
   "main": "build/index.js",
   "keywords": "form,react,logic",
@@ -14,6 +14,7 @@
     "build/"
   ],
   "scripts": {
+    "prepublish": "yarn build",
     "watch": "babel --watch src --out-dir build/",
     "build": "babel src/ --out-dir build/",
     "flow": "flow",
