@@ -1,10 +1,10 @@
 {
-  "name": "form",
+  "name": "form-logic",
   "version": "1.0.0",
   "description": "Form logic made simple",
   "main": "index.js",
   "repository": {
-    "url": "https://github.com/js-and-chill/form.git",
+    "url": "https://github.com/js-and-chill/form-logic.git",
     "type": "git"
   },
   "author": "yachaka <yachaka@gmail.com>",
