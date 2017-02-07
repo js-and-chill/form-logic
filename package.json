@@ -13,6 +13,7 @@
     "build/"
   ],
   "scripts": {
+    "watch": "babel --watch src --out-dir build/",
     "build": "babel src/ --out-dir build/",
     "flow": "flow",
     "test": "mocha --require babel-register ./src/**/*.test.js"
@@ -27,6 +28,7 @@
     "chai": "^3.5.0",
     "enzyme": "^2.7.1",
     "flow-bin": "^0.38.0",
+    "gulp": "^3.9.1",
     "mocha": "^3.2.0",
     "react-addons-test-utils": "^15.4.2",
     "react-dom": "^15.4.2",

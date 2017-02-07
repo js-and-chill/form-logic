@@ -33,8 +33,10 @@ export type FormData = {
 
 export type Props = {
   initialData?: FormData,
-  children: React$Element<any>,
+  children?: React$Element<any>,
+  Component?: ReactClass<*>,
 };
+
 */
 
 export const formContextShape = T.shape({
@@ -119,9 +121,16 @@ export default class Form extends PureComponent/*::<void, Props, void>*/ {
     const {
       initialData,
       children,
+      Component,
       ...others
     } = this.props;
 
-    return cloneElement(this.props.children, others);
+    const Final = Component || 'div';
+
+    return (
+      <Final {...others}>
+        {this.props.children}
+      </Final>
+    );
   }
 }
