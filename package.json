@@ -1,6 +1,6 @@
 {
   "name": "form-logic",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Form logic made simple",
   "main": "build/index.js",
   "keywords": "form,react,logic",
