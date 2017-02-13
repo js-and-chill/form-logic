@@ -1,6 +1,9 @@
 # form
 Low-level and simple react components to handle common form logic.
 ```bash
+yarn add form-logic
+```
+```bash
 npm install --save form-logic
 ```
 
