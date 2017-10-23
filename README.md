@@ -28,9 +28,7 @@ Here is a simple form implementing most basics functionnalities :
 - Register button is disabled until inputs are filled
 - Register button and the inputs are disabled when the request is in flight
 
-<kbd>
 ![form-final](https://cloud.githubusercontent.com/assets/8074336/22705609/84ecbfd2-ed6c-11e6-8ebf-8823b9097504.gif)
-</kbd>
 
 ```js
 <Form>
